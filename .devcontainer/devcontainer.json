@@ -1,0 +1,5 @@
+{
+  "name": "Kali Hacking Lab",
+  "image": "kalilinux/kali-rolling:latest",
+  "remoteUser": "root"
+}
