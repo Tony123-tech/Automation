@@ -12,8 +12,6 @@
       "settings": {
         "workbench.colorTheme": "Monokai",
         "workbench.iconTheme": "material-icon-theme",
-        "editor.fontSize": 14,
-        "terminal.integrated.fontSize": 13
       },
       "extensions": [
         "ms-python.python",
