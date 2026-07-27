@@ -1,20 +1,12 @@
-# Neal.fun Script
+#  Neal.fun Automation Suite
 
-## !! How to use
-
-### 1. Neal.fun/Not-A-Robot/neal.py
-Open your Terminal, then run:
-```bash
-python neal.py
-```
-
-### 2. Neal.fun/Not-A-Robot/position.py
-Track the position of your mouse.
+An automated toolset built with Python, Selenium, and JavaScript to conquer various mini-games on **[Neal.fun](https://neal.fun/)**, including *Not A Robot* and *Infinite Craft*. The project leverages web automation, mouse tracking, and OCR image recognition to automatically solve game challenges.
 
 ---
 
-### 3. Neal.fun/Infinite-Craft/Script.js
+##  Tech Stack
 
-* **Windows**: Open your Infinite Craft page, press `Ctrl` + `Shift` + `J` to open the console. Next, paste the script inside the console and press `Enter`. Close the tab. It will automatically work!
-* **Mac**: Open your Infinite Craft page, press `Command` + `Option` + `J` to open the console, then paste the script and press `Enter`.
-* **Linux**: Follow the same steps as Windows.
+* **Python 3.10+**
+* **Selenium**: Browser automation
+* **JavaScript**: Browser console scripts
+
