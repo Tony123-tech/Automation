@@ -50,6 +50,10 @@ level_devil_tile = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.CSS_SELECTOR, "img[alt*='Level Devil']"))
 )
 
-# 7. Move mouse pointer to the tile and click it to play
 actions.reset_actions()  
 actions.move_to_element(level_devil_tile).click().perform()
+
+fullscreen_button = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CSS_SELECTOR, "span[aria-label='ui-icons-fullscreen']"))
+)
+fullscreen_button.click()
