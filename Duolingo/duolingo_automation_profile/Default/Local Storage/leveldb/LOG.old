@@ -1,0 +1,11 @@
+2026/08/13-14:06:11.780 138e22 Reusing MANIFEST /Users/waika/Automation/Duolingo/duolingo_automation_profile/Default/Local Storage/leveldb/MANIFEST-000001
+2026/08/13-14:06:11.783 138e22 Recovering log #3
+2026/08/13-14:06:11.784 138e22 Level-0 table #3: started
+2026/08/13-14:06:11.793 138e22 Level-0 table #3: 355363 bytes OK
+2026/08/13-14:06:11.793 138e22 Recovering log #4
+2026/08/13-14:06:11.793 138e22 Reusing old log /Users/waika/Automation/Duolingo/duolingo_automation_profile/Default/Local Storage/leveldb/000004.log 
+2026/08/13-14:06:11.795 138e22 Delete type=0 #3
+2026/08/13-14:06:11.795 138e22 Delete type=2 #5
+2026/08/13-14:06:22.971 138e25 Level-0 table #6: started
+2026/08/13-14:06:22.973 138e25 Level-0 table #6: 227749 bytes OK
+2026/08/13-14:06:22.976 138e25 Delete type=0 #4
