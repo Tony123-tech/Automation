@@ -1,4 +1,4 @@
-# Production & Polish: Optimization, DataStores, Monetization, & Badges
+# Ultimate Production & Polish: Optimization, DataStores, Monetization, & Advanced Scripting Systems
 
 ## 1. Global Data Persistence (DataStoreService)
 * **Persistent Engine Storage**: Saves critical state markers safely to cloud servers across separate gameplay instances.
@@ -11,6 +11,7 @@ local Players = game:GetService("Players")
 
 -- Loading Data
 Players.PlayerAdded:Connect(function(player)
+	local leaderstats = Instance.new("Folder")
 	local leaderstats = Instance.new("Folder")
 	leaderstats.Name = "leaderstats"
 	leaderstats.Parent = player
@@ -163,3 +164,101 @@ end
 
 Players.PlayerAdded:Connect(onPlayerAdded)
 ```
+
+## 7. Client-Side Badge VIP Door (Smooth Local Passing)
+* **Local Illusion**: To make a door open **only** for the badge owner while remaining completely solid for everyone else, handle collisions on the client via a `LocalScript`.
+* **Exploit Mitigation**: This is perfectly safe for a visual door barrier, as exploiters can only walk through the door on their own screen, while the server tracks their true coordinate position.
+
+### LocalScript (Place inside `StarterPlayerScripts` or `StarterCharacterScripts`)
+```lua
+local BadgeService = game:GetService("BadgeService")
+local Players = game:GetService("Players")
+
+local BADGE_ID = 00000000 -- Replace with your actual Badge ID
+local localPlayer = Players.LocalPlayer
+local vipDoor = workspace:WaitForChild("VIP_Door") -- Target physical door
+
+-- Run the check locally when the player joins/spawns
+local success, hasBadge = pcall(function()
+	return BadgeService:UserHasBadgeAsync(localPlayer.UserId, BADGE_ID)
+end)
+
+if success and hasBadge then
+	-- Disable collisions and lower transparency ONLY on this player's machine
+	vipDoor.CanCollide = false
+	vipDoor.Transparency = 0.6
+	vipDoor.Color = Color3.fromRGB(0, 255, 120) -- Green hue indicating access
+end
+```
+
+## 8. Game Pass Prompt Zones & Instant Purchase Listeners
+* **Frictionless Delivery**: To maximize conversions, prompt the store option when players walk inside a bounding zone part. 
+* **Dynamic Granting**: Use `MarketplaceService.PromptGamePassPurchaseFinished` to immediately award their physical starter gear or perk the exact millisecond they hit buy, avoiding any clunky server rejoin delays.
+
+### Server Script (`ServerScriptService`)
+```lua
+local MarketplaceService = game:GetService("MarketplaceService")
+local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
+
+local GAME_PASS_ID = 00000000 -- Replace with your actual Game Pass ID
+local PromptZone = workspace:WaitForChild("PromptZonePart") -- Hitbox zone part
+
+-- Helper function to give the tool item
+local function giveSpecialItem(player)
+	local specialTool = ServerStorage:FindFirstChild("SpecialSword") -- Assumes tool is in ServerStorage
+	if specialTool and player:FindFirstChild("Backpack") then
+		-- Double check they don't already have it
+		if not player.Backpack:FindFirstChild(specialTool.Name) and not (player.Character and player.Character:FindFirstChild(specialTool.Name)) then
+			local clonedTool = specialTool:Clone()
+			clonedTool.Parent = player.Backpack
+		end
+	end
+end
+
+-- 1. Bounding Zone Touch Prompt
+PromptZone.Touched:Connect(function(otherPart)
+	local character = otherPart.Parent
+	local player = Players:GetPlayerFromCharacter(character)
+	
+	if player then
+		local success, doesOwn = pcall(function()
+			return MarketplaceService:UserOwnsGamePassAsync(player.UserId, GAME_PASS_ID)
+		end)
+		
+		if success and not doesOwn then
+			MarketplaceService:PromptGamePassPurchase(player, GAME_PASS_ID)
+		elseif success and doesOwn then
+			giveSpecialItem(player) -- If they already own it, give them the item on touch
+		end
+	end
+end)
+
+-- 2. Real-Time Post-Purchase Listener (Instant delivery without rejoining)
+MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(player, purchasedPassId, purchaseSuccess)
+	-- Verify it was successful and the item matches our Game Pass
+	if purchaseSuccess and purchasedPassId == GAME_PASS_ID then
+		print(player.Name .. " instantly bought the Game Pass!")
+		giveSpecialItem(player)
+	end
+end)
+```
+
+## 9. Passive Premium Membership Reward Pipeline
+* **Premium Payout Model**: Roblox handles payouts organically based on total playtime duration tracked from players with premium active subscriptions.
+* **Incentivization Framework**: To maximize revenue, build a welcoming loop system that instantly provides an exclusive companion companion or tool item to Premium users upon entry, prompting them to choose your world for longer sessions over others.
+
+### Server Script (`ServerScriptService`)
+```lua
+local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
+local function onPlayerAdded(player)-- Check the native engine MembershipType property enum state
+if player.MembershipType == Enum.MembershipType.Premium thenprint(player.Name .. " is a Premium Member! Granting companion...")
+-- Give them an exclusive inventory tool or weapon
+local premiumGear = ServerStorage:FindFirstChild("PremiumCompanion")
+if premiumGear then
+	local clone = premiumGear:Clone()
+	clone.Parent = player:WaitForChild("Backpack")
+end
+
+endendPlayers.PlayerAdded:Connect(onPlayerAdded)```
