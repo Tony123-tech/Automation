@@ -147,7 +147,7 @@ class Game:
         wave = np.sin(2 * np.pi * frequency * t) * 16383
         wave = wave.astype(np.int16)
         stereo_wave = np.vstack((wave, wave)).T
-        sound = pygame.sndarray.make_sound(stereo_wave)
+        sound = pygame.sndarray.make_sound(stereo_wave.copy(order='C'))
         sound.play()
 
     def update_score(self, side):
