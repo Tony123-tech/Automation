@@ -20,28 +20,4 @@ function runCaptchaBot() {
         return;
     }
 
-    let inputField = document.querySelector('.captcha-input-text');
-    let submitBtn = document.querySelector('.captcha-button-valid');
-    if (inputField && submitBtn) {
-        let appElement = document.querySelector('#__nuxt') || document.querySelector('[data-v-app]') || document.body;
-        let vueInstance = appElement.__vue_app__?._container?._vnode?.component?.ctx || appElement.__vue__;
-
-        if (vueInstance) {
-            let correctAnswer = vueInstance.captchaText || vueInstance.$data?.captchaText || 
-                                vueInstance.text || vueInstance.$data?.text || 
-                                vueInstance.answer || vueInstance.$data?.answer;
-
-            if (correctAnswer) {
-                inputField.value = correctAnswer;
-                inputField.dispatchEvent(new Event('input', { bubbles: true }));
-
-                setTimeout(() => {
-                    submitBtn.click();
-                    setTimeout(runCaptchaBot, 5000);
-                }, 5000);
-            }
-        }
-    }
-}
-
-runCaptchaBot();
+runCaptchaBot()
